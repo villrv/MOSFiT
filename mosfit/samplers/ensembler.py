@@ -24,23 +24,16 @@ class Ensembler(Sampler):
     def __init__(
         self, fitter, model=None, iterations=2000, burn=None, post_burn=None,
             num_temps=1, num_walkers=None, convergence_criteria=None,
-            convergence_type='psrf', gibbs=False, fracking=True,
+            convergence_type='psrf', fracking=True,
             frack_step=20, **kwargs):
         """Initialize `Ensembler` class."""
-        super(Ensembler, self).__init__(
-            fitter, num_walkers=num_walkers, **kwargs)
-
-        self._model = model
-        self._iterations = iterations
-        self._burn = burn
-        self._post_burn = post_burn
-        self._num_temps = num_temps
-        self._cc = convergence_criteria
-        self._ct = convergence_type
-        self._gibbs = gibbs
+        super(Ensembler, self).__init__(fitter, model, iterations, burn,
+                                       post_burn, num_walkers,
+                                       convergence_criteria,
+                                       convergence_type, **kwargs)
+        self._ntemps = num_temps
         self._fracking = fracking
         self._frack_step = frack_step
-
         self._upload_model = None
         self._WAIC = None
 
@@ -272,8 +265,7 @@ class Ensembler(Sampler):
                 for li, (
                         self._p, self._lnprob, self._lnlike) in enumerate(
                             sampler.sample(
-                                self._p, iterations=ic, gibbs=self._gibbs if
-                                self._emi >= self._burn_in else True)):
+                                self._p, iterations=ic)):
                     if (self._fitter._maximum_walltime is not False and
                             self.time_running() >
                             self._fitter._maximum_walltime):

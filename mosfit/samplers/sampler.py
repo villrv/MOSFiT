@@ -10,14 +10,20 @@ class Sampler(object):
 
     _MIN_WEIGHT = 1e-4
 
-    def __init__(self, fitter, num_walkers=None, **kwargs):
+    def __init__(self, fitter, model=None, iterations=2000, burn=None, post_burn=None,
+                 num_walkers=None, convergence_criteria=None, convergence_type='psrf', **kwargs):
         """Initialize `Sampler` class."""
         self._printer = kwargs.get('printer')
         self._fitter = fitter
         self._pool = self._fitter._pool
         self._printer = self._fitter._printer
-
+        self._model = model
+        self._iterations = iterations
+        self._burn = burn
+        self._post_burn = post_burn
         self._num_walkers = num_walkers
+        self._cc = convergence_criteria
+        self._ct = convergence_type
 
     def get_samples(self):
         """Return samples from ensembler."""
