@@ -500,17 +500,25 @@ class Model(object):
                           filts._band_names[bis[i]],
                           ois[i], bis[i])
                          for i in range(len(bis))]
-            filterrows = [(
-                ' ' + (' ' if s[-2] else '*') + ubs[s[-1]]['origin']
-                .ljust(band_len) + ' [' + ', '.join(
-                    list(
-                        filter(None, (
-                            'Bandset: ' + s[1] if s[1] else '',
-                            'System: ' + s[0] if s[0] else '',
-                            'AB offset: ' + pretty_num(
-                                s[3]) if (s[4] == 'magnitude' and
-                                          s[0] != 'AB') else '')))) +
-                ']').replace(' []', '') for s in list(sorted(filterarr))]
+            # Sort and deduplicate bands
+            seen_bands = set()
+            filterrows = []
+            for s in sorted(filterarr):
+                band_key = (ubs[s[-1]]['origin'], ubs[s[-1]]['name'])
+                if band_key in seen_bands:
+                    continue
+                seen_bands.add(band_key)
+                info = []
+                if s[1]:  # bandset
+                    info.append('Bandset: ' + (s[1][0] if isinstance(s[1], list) else s[1]))
+                if s[0]:  # system
+                    info.append('System: ' + (s[0][0] if isinstance(s[0], list) else s[0]))
+                if s[4] == 'magnitude' and s[0] != 'AB':  # AB offset
+                    info.append('AB offset: ' + pretty_num(s[3]))
+                row = ' ' + (' ' if s[-2] else '*') + ubs[s[-1]]['origin'].ljust(band_len)
+                if info:
+                    row += ' [' + '; '.join(info) + ']'
+                filterrows.append(row)
             if not all(ois):
                 filterrows.append(prt.text('not_observed'))
             prt.prt('\n'.join(filterrows))

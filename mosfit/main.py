@@ -40,15 +40,6 @@ def get_parser(only=None, printer=None):
         formatter_class=SortingHelpFormatter,
         add_help=only is None)
 
-    parser.add_argument(
-        '--language',
-        dest='language',
-        type=str,
-        const='select',
-        default='en',
-        nargs='?',
-        help=("Language for output text."))
-
     if only == 'language':
         return parser
 
@@ -591,50 +582,13 @@ def get_parser(only=None, printer=None):
 def main():
     """Run MOSFiT."""
     prt = Printer(
-        wrap_length=100, quiet=False, language='en', exit_on_prompt=False)
-
-    parser = get_parser(only='language')
-    args, _ = parser.parse_known_args()
-
-    if args.language == 'en':
-        loc = locale.getlocale()
-        if loc[0]:
-            args.language = loc[0].split('_')[0]
-
-    if args.language != 'en':
-        try:
-            from googletrans.constants import LANGUAGES
-        except Exception:
-            raise RuntimeError('`--language` requires `googletrans` package, '
-                               'install with `pip install googletrans`.')
-
-        if args.language == 'select' or args.language not in LANGUAGES:
-            languages = list(
-                sorted([
-                    LANGUAGES[x].title().replace('_', ' ') + ' (' + x + ')'
-                    for x in LANGUAGES
-                ]))
-            sel = prt.prompt(
-                'Select a language:',
-                kind='select',
-                options=languages,
-                message=False)
-            args.language = sel.split('(')[-1].strip(')')
-
-    prt = Printer(language=args.language)
-
-    language = args.language
+        wrap_length=100, quiet=False, exit_on_prompt=False)
 
     parser = get_parser(printer=prt)
     args = parser.parse_args()
 
-    args.language = language
-
-    prt = Printer(
-        wrap_length=100,
-        quiet=args.quiet,
-        language=args.language,
-        exit_on_prompt=args.exit_on_prompt)
+    if args.quiet:
+        prt._quiet = True
 
     if args.version:
         print('MOSFiT v{}'.format(__version__))
