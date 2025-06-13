@@ -208,14 +208,6 @@ def get_parser(only=None, printer=None):
         help=prt.text('parser_user_fixed_parameters'))
 
     parser.add_argument(
-        '--release-parameters',
-        '-r',
-        dest='user_released_parameters',
-        default=[],
-        nargs='+',
-        help=prt.text('parser_user_released_parameters'))
-
-    parser.add_argument(
         '--iterations',
         '-i',
         dest='iterations',
@@ -533,13 +525,6 @@ def get_parser(only=None, printer=None):
         default=False,
         action='store_true',
         help=prt.text('parser_exit_on_prompt'))
-
-    parser.add_argument(
-        '--download-recommended-data',
-        dest='download_recommended_data',
-        default=False,
-        action='store_true',
-        help=prt.text('parser_download_recommended_data'))
 
     parser.add_argument(
         '--local-data-only',
