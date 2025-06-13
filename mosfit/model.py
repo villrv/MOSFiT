@@ -354,7 +354,6 @@ class Model(object):
                   band_instruments=[],
                   band_bandsets=[],
                   band_sampling_points=25,
-                  variance_for_each=[],
                   user_fixed_parameters=[],
                   user_released_parameters=[],
                   pool=None):
@@ -453,9 +452,6 @@ class Model(object):
                 [0.0 for x in range(self._num_free_parameters)],
                 root=root)
 
-        # Create any data-dependent free parameters.
-        self.adjust_fixed_parameters(variance_for_each, outputs)
-
         # Determine free parameters again as above may have changed them.
         self.determine_free_parameters(fixed_parameters, released_parameters)
 
@@ -543,78 +539,6 @@ class Model(object):
                     prefix=False, wrapped=True)
 
         return True
-
-    def adjust_fixed_parameters(
-            self, variance_for_each=[], output={}):
-        """Create free parameters that depend on loaded data."""
-        unique_band_indices = list(
-            sorted(set(output.get('all_band_indices', []))))
-        needs_general_variance = any(
-            np.array(output.get('all_band_indices', [])) < 0)
-
-        new_call_stack = OrderedDict()
-        for task in self._call_stack:
-            cur_task = self._call_stack[task]
-            vfe = listify(variance_for_each)
-            if task == 'variance' and 'band' in vfe:
-                vfi = vfe.index('band') + 1
-                mwfd = float(vfe[vfi]) if (vfi < len(vfe) and is_number(
-                    vfe[vfi])) else self.MIN_WAVE_FRAC_DIFF
-                # Find photometry in call stack.
-                ptask = None
-                for ptask in self._call_stack:
-                    if ptask == 'photometry':
-                        awaves = self._modules[ptask].average_wavelengths(
-                            unique_band_indices)
-                        abands = self._modules[ptask].bands(
-                            unique_band_indices)
-                        band_pairs = list(sorted(zip(awaves, abands)))
-                        break
-                owav = 0.0
-                variance_bands = []
-                for (awav, band) in band_pairs:
-                    wave_frac_diff = abs(awav - owav) / (awav + owav)
-                    if wave_frac_diff < mwfd:
-                        continue
-                    new_task_name = '-'.join([task, 'band', band])
-                    if new_task_name in self._call_stack:
-                        continue
-                    new_task = deepcopy(cur_task)
-                    new_call_stack[new_task_name] = new_task
-                    if 'latex' in new_task:
-                        new_task['latex'] += '_{\\rm ' + band + '}'
-                    new_call_stack[new_task_name] = new_task
-                    self._modules[new_task_name] = self._load_task_module(
-                        new_task_name, call_stack=new_call_stack)
-                    owav = awav
-                    variance_bands.append([awav, band])
-                if needs_general_variance:
-                    new_call_stack[task] = deepcopy(cur_task)
-                if self._pool.is_master():
-                    self._printer.message(
-                        'anchoring_variances',
-                        [', '.join([x[1] for x in variance_bands])],
-                        wrapped=True)
-                self._modules[ptask].set_variance_bands(variance_bands)
-            else:
-                new_call_stack[task] = deepcopy(cur_task)
-            # Fixed any variables to be fixed if any conditional inputs are
-            # fixed by the data.
-            # if any([listify(x)[-1] == 'conditional'
-            #         for x in cur_task.get('inputs', [])]):
-        self._call_stack = new_call_stack
-
-        for task in reversed(self._call_stack):
-            cur_task = self._call_stack[task]
-            for inp in cur_task.get('inputs', []):
-                other = listify(inp)[0]
-                if (cur_task['kind'] == 'parameter' and
-                        output.get(other, None) is not None):
-                    if (not self._modules[other]._fixed or
-                            self._modules[other]._fixed_by_user):
-                        self._modules[task]._fixed = True
-                    self._modules[task]._derived_keys = list(set(
-                        self._modules[task]._derived_keys + [task]))
 
     def determine_number_of_measurements(self):
         """Estimate the number of measurements."""

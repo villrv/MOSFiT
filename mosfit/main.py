@@ -482,13 +482,6 @@ def get_parser(only=None, printer=None):
         help=prt.text('parser_test'))
 
     parser.add_argument(
-        '--variance-for-each',
-        dest='variance_for_each',
-        default=[],
-        nargs='+',
-        help=prt.text('parser_variance_for_each'))
-
-    parser.add_argument(
         '--speak',
         dest='speak',
         const='en',
