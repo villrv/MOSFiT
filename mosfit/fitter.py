@@ -27,7 +27,7 @@ from mosfit.samplers.nester import Nester
 from mosfit.samplers.ultranester import UltraNester
 from mosfit.utils import (all_to_list, entabbed_json_dump, entabbed_json_dumps,
                           flux_density_unit, frequency_unit, get_model_hash,
-                          listify, open_atomic, slugify, speak)
+                          listify, open_atomic, slugify)
 
 from .model import Model
 
@@ -91,14 +91,12 @@ class Fitter(object):
                  prefer_fluxes=False,
                  offline=False,
                  prefer_cache=False,
-                 open_in_browser=False,
-                 pool=None,
                  quiet=False,
                  test=False,
                  wrap_length=100,
                  **kwargs):
-        """Initialize `Fitter` class."""
-        self._pool = SerialPool() if pool is None else pool
+        """Initialize fitter."""
+        self._pool = SerialPool() if kwargs.get('pool') is None else kwargs.get('pool')
         self._printer = Printer(
             pool=self._pool,
             wrap_length=wrap_length,
@@ -107,17 +105,22 @@ class Fitter(object):
             language=language,
             exit_on_prompt=exit_on_prompt)
         self._fetcher = Fetcher(
-            test=test, open_in_browser=open_in_browser, printer=self._printer)
-
+            test=test, printer=self._printer)
+        self._quiet = quiet
+        self._test = test
         self._cuda = cuda
+        self._language = language
         self._limiting_magnitude = limiting_magnitude
         self._prefer_fluxes = prefer_fluxes
         self._offline = offline
         self._prefer_cache = prefer_cache
-        self._open_in_browser = open_in_browser
-        self._quiet = quiet
-        self._test = test
         self._wrap_length = wrap_length
+        self._model = None
+        self._sampler = None
+        self._event_name = None
+        self._event_path = None
+        self._method = None
+        self._walker_data = None
 
         if self._cuda:
             try:
@@ -420,8 +423,7 @@ class Fitter(object):
                         ptxt = prt.text('acquire_recommended',
                                         [', '.join(list(urk))])
                         while event and len(urk) and (
-                                alt_name or self._download_recommended_data
-                                or prt.prompt(
+                                alt_name or prt.prompt(
                                     ptxt, [', '.join(urk)], kind='bool')):
                             pool = get_pool(method=method)
                             if pool.is_master():
@@ -542,8 +544,6 @@ class Fitter(object):
 
         Fitting performed using a combination of emcee and fracking.
         """
-        if self._speak:
-            speak('Fitting ' + event_name, self._speak)
         from mosfit.__init__ import __version__
         global model
         model = self._model
@@ -598,8 +598,7 @@ class Fitter(object):
         prt.message('constructing')
 
         if write:
-            if self._speak:
-                speak(prt._strings['saving_output'], self._speak)
+            prt.message('saving_output')
 
         if self._event_path:
             entry = Entry.init_from_file(

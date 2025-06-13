@@ -481,14 +481,6 @@ def get_parser(only=None, printer=None):
         help=prt.text('parser_no_guessing'))
 
     parser.add_argument(
-        '--open-in-browser',
-        '-O',
-        dest='open_in_browser',
-        default=False,
-        action='store_true',
-        help=prt.text('parser_open_in_browser'))
-
-    parser.add_argument(
         '--exit-on-prompt',
         dest='exit_on_prompt',
         default=False,

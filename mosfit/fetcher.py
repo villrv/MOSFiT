@@ -20,13 +20,11 @@ class Fetcher(object):
 
     def __init__(self,
                  test=False,
-                 open_in_browser=False,
                  printer=None,
                  **kwargs):
         """Initialize class."""
         self._test = test
         self._printer = Printer() if printer is None else printer
-        self._open_in_browser = open_in_browser
 
         self._names_downloaded = False
         self._names = OrderedDict()
@@ -215,9 +213,6 @@ class Fetcher(object):
 
             if os.path.exists(path):
                 events[ei]['path'] = path
-                if self._open_in_browser:
-                    webbrowser.open(catalogs[events[ei]['catalog']]['web'] +
-                                    events[ei]['name'])
                 prt.message('event_file', [path], wrapped=True)
             else:
                 prt.message('no_data',
