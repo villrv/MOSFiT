@@ -68,13 +68,6 @@ def get_parser(only=None, printer=None):
         help=prt.text('parser_parameter_paths'))
 
     parser.add_argument(
-        '--walker-paths',
-        '-w',
-        dest='walker_paths',
-        nargs='+',
-        help=prt.text('parser_walker_paths'))
-
-    parser.add_argument(
         '--max-time',
         dest='max_time',
         type=float,
@@ -634,8 +627,6 @@ def main():
     if args.method in ('dynesty', 'ultranest'):
         if args.run_until_converged and args.iterations >= 0:
             raise ValueError(prt.text('R_i_mutually_exclusive'))
-        if args.walker_paths is not None:
-            raise ValueError(prt.text('w_nester_mutually_exclusive'))
 
     if args.generative:
         if args.iterations > 0:
@@ -929,10 +920,6 @@ def main():
         args.save_full_chain = False
     if args.num_temps is None:
         args.num_temps = 1
-    if args.walker_paths is None:
-        args.walker_paths = []
-    if args.no_guessing:
-        args.guess = False
 
     # Then, fit the listed events with the listed models.
     fitargs = vars(args)
