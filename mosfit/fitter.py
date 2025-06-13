@@ -88,7 +88,6 @@ class Fitter(object):
                  exit_on_prompt=False,
                  language='en',
                  limiting_magnitude=None,
-                 prefer_fluxes=False,
                  offline=False,
                  prefer_cache=False,
                  quiet=False,
@@ -111,7 +110,6 @@ class Fitter(object):
         self._cuda = cuda
         self._language = language
         self._limiting_magnitude = limiting_magnitude
-        self._prefer_fluxes = prefer_fluxes
         self._offline = offline
         self._prefer_cache = prefer_cache
         self._wrap_length = wrap_length
