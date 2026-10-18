@@ -19,6 +19,11 @@ class HybridSED(SED):
     luminosities of the `physicsni` engine itself. phase = days since B maximum in the rest frame
     = (t - t_explosion) - tpeakbol - tbpeak, where tpeakbol is the engine's bolometric peak and tbpeak the
     B-max delay after it (free; prior from the training sample, stored in the table as tbpeak_mean/sd).
+    The spectrum's clock runs at phase / sstretch (colour-evolution stretch: slow decliners evolve more
+    slowly; tables built with build_hybrid_table.py --stretch; sstretch = 1 for tables built without it).
+    Tables built with --physstretch carry phys_alpha/phys_b/phys_lnw_mean: then the stretch is NOT free but set by
+    the physics light curve, s = exp(b + alpha (ln w - <ln w>)) * sstretch, w = `tquarterbol`; sstretch is then a small
+    correction (exact tie: -F sstretch 1; or a tight prior, e.g. -P with sstretch sigma 0.04).
     The table covers -15 to +70 d; outside it the nearest edge is used. Because S is a rest-frame
     spectrum, it works for any filters and any redshift. $MOSFIT_HYBRIDSED_TABLE overrides the table
     (e.g. one trained without the object being fitted).
@@ -35,7 +40,9 @@ class HybridSED(SED):
     def _load(self):
         if self.TABLE not in self._cache:
             d = np.load(self.TABLE)
-            self._cache[self.TABLE] = (d['phase'], d['lam'], d['shape'])
+            phys = (float(d['phys_alpha']), float(d['phys_b']), float(d['phys_lnw_mean'])) \
+                if 'phys_alpha' in d.files else None
+            self._cache[self.TABLE] = (d['phase'], d['lam'], d['shape'], phys)
         return self._cache[self.TABLE]
 
     def process(self, **kwargs):
@@ -51,10 +58,19 @@ class HybridSED(SED):
         band_indices = np.asarray(kwargs['all_band_indices'])
         frequencies = np.asarray(kwargs['all_frequencies'])
         zp1 = 1.0 + kwargs[self.key('redshift')]
-        ph_tab, lam, shape = self._load()
+        ph_tab, lam, shape, phys = self._load()
+        if phys is not None:
+            # Clock set by the physics: s = exp(b + alpha (ln w - <ln w>)), w = engine's peak->quarter time.
+            alpha, b, lnw_mean = phys
+            w = kwargs.get(self.key('tquarterbol'), np.nan)
+            stretch = float(np.exp(b + alpha * (np.log(w) - lnw_mean))) if np.isfinite(w) and w > 0 else 1.0
+            # sstretch = small per-object correction on top of the physics value (fix to 1 for an exact tie).
+            stretch *= kwargs.get(self.key('sstretch'), 1.0)
+        else:
+            stretch = kwargs.get(self.key('sstretch'), 1.0)
 
-        # Spectrum shape at each observation's rest-frame phase (linear in phase).
-        phase = np.clip(times - t_exp - t_bmax, ph_tab[0], ph_tab[-1])
+        # Spectrum shape at each observation's rest-frame phase (linear in phase), clock stretched by sstretch.
+        phase = np.clip((times - t_exp - t_bmax) / stretch, ph_tab[0], ph_tab[-1])
         k = np.clip(np.searchsorted(ph_tab, phase) - 1, 0, len(ph_tab) - 2)
         f = ((phase - ph_tab[k]) / (ph_tab[k + 1] - ph_tab[k]))[:, None]
         spec = shape[k] * (1 - f) + shape[k + 1] * f                 # (n_obs, n_lam), 1/A

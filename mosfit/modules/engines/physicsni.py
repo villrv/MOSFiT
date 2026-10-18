@@ -5,7 +5,8 @@ Solver: mosfit/physics_lc.py (sn-modal-lc, github.com/vvillar/sn-modal-lc).
 Parameters: mejecta (Msun), fnickel (M_Ni / M_ej), fmix (0-1, Ni outer edge between its minimum
 allowed value and the surface), kappa, kappagamma (cm^2/g), mfe (stable Fe, Msun), texplosion.
 Outputs dense luminosities and dense photospheric radii (tau = 2/3) for `physicsphotosphere`,
-and the bolometric peak time `tpeakbol` (rest days since explosion) for `physicssed`.
+the bolometric peak time `tpeakbol` (rest days since explosion) and the peak-to-quarter-peak time
+`tquarterbol` (rest days) for `hybridsed`.
 """
 import numpy as np
 
@@ -21,7 +22,7 @@ class PhysicsNi(Engine):
 
     PROFILE = 'scalzo'
     N_INT = 500
-    PEAK_GRID = np.arange(4.0, 40.01, 0.5)
+    PEAK_GRID = np.arange(4.0, 90.01, 0.5)
     _models = {}
 
     _REFERENCES = [
@@ -47,7 +48,7 @@ class PhysicsNi(Engine):
         ts = times - t_exp
         good = ts > 1e-3
         n_good = int(good.sum())
-        t_peak = np.nan
+        t_peak = t_quarter = np.nan
         if e_k > 0 and m_ni < 0.95 * m_ej and n_good:
             if self.PROFILE not in self._models:
                 self._models[self.PROFILE] = ModalModel(self.PROFILE, n_modes=30)
@@ -60,6 +61,7 @@ class PhysicsNi(Engine):
                 rph[good] = r['R_ph'][:n_good]
                 v_max = r['v_max']
                 t_peak = self._peak_time(r['L'][n_good:])
+                t_quarter = self._quarter_time(r['L'][n_good:])
             except ValueError:
                 v_max = 0.0
         else:
@@ -69,7 +71,8 @@ class PhysicsNi(Engine):
                 self.dense_key('physradius'): rph,
                 self.key('vmax'): v_max / 1e5,
                 self.key('ekinetic'): e_k,
-                self.key('tpeakbol'): t_peak}
+                self.key('tpeakbol'): t_peak,
+                self.key('tquarterbol'): t_quarter}
 
     def _peak_time(self, lum):
         """Bolometric peak (rest days since explosion), parabolic refinement on PEAK_GRID."""
@@ -79,3 +82,12 @@ class PhysicsNi(Engine):
         den = y0 - 2.0 * y1 + y2
         shift = 0.5 * (y0 - y2) / den if den < 0 else 0.0
         return float(g[i] + np.clip(shift, -1.0, 1.0) * (g[1] - g[0]))
+
+    def _quarter_time(self, lum):
+        """Rest days from bolometric peak until L falls to a quarter of peak, on PEAK_GRID (sets the colour clock)."""
+        g = self.PEAK_GRID
+        i = int(np.argmax(lum)); j = i + int(np.argmax(lum[i:] < 0.25 * lum[i]))
+        if j == i:
+            return np.nan
+        f = (lum[j - 1] - 0.25 * lum[i]) / (lum[j - 1] - lum[j])
+        return float(g[j - 1] + f * (g[j] - g[j - 1]) - g[i])

@@ -79,7 +79,8 @@
             "texplosion",
             "redshift",
             "physicsni",
-            "tbpeak"
+            "tbpeak",
+            "sstretch"
         ],
         "requests": {
             "band_wave_ranges": "photometry"
@@ -112,8 +113,14 @@
     },
     "tbpeak": {
         "kind": "parameter",
-        "value": 1.38,
+        "value": 0.7,
         "class": "parameter",
         "latex": "t_{B,\\max} - t_{\\rm bol,peak}\\,{\\rm (days)}"
+    },
+    "sstretch": {
+        "kind": "parameter",
+        "value": 1.0,
+        "class": "parameter",
+        "latex": "s_{\\rm colour}"
     }
 }
