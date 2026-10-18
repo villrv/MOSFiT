@@ -34,7 +34,7 @@
     },
     "tbpeak": {
         "class": "gaussian",
-        "mu": 1.27,
+        "mu": 1.38,
         "sigma": 3.0,
         "min_value": -8.0,
         "max_value": 10.0

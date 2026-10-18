@@ -112,7 +112,7 @@
     },
     "tbpeak": {
         "kind": "parameter",
-        "value": 1.27,
+        "value": 1.38,
         "class": "parameter",
         "latex": "t_{B,\\max} - t_{\\rm bol,peak}\\,{\\rm (days)}"
     }
