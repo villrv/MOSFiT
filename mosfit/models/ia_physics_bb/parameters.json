@@ -1,0 +1,40 @@
+{
+    "nhhost": {
+        "min_value": 1e+16,
+        "max_value": 1e+23,
+        "log": true
+    },
+    "texplosion": {
+        "min_value": -30.0,
+        "max_value": 0.0
+    },
+    "temperature": {
+        "min_value": 2000.0,
+        "max_value": 15000.0,
+        "log": true
+    },
+    "mejecta": {
+        "min_value": 0.5,
+        "max_value": 2.5,
+        "log": true
+    },
+    "fnickel": {
+        "min_value": 0.05,
+        "max_value": 0.9,
+        "log": true
+    },
+    "fmix": {
+        "min_value": 0.0,
+        "max_value": 1.0
+    },
+    "kappa": {
+        "min_value": 0.03,
+        "max_value": 0.4,
+        "log": true
+    },
+    "variance": {
+        "min_value": 0.001,
+        "max_value": 100.0,
+        "log": true
+    }
+}

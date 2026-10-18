@@ -24,12 +24,6 @@
             "min_times": "transient"
         }
     },
-    "temperature": {
-        "kind": "parameter",
-        "value": 5000.0,
-        "class": "parameter",
-        "latex": "T_{\\min}\\,{\\rm (K)}"
-    },
     "mejecta": {
         "kind": "parameter",
         "value": 1.2,
@@ -79,20 +73,13 @@
             "texplosion"
         ]
     },
-    "physicsphotosphere": {
-        "kind": "photosphere",
-        "inputs": [
-            "texplosion",
-            "physicsni",
-            "temperature"
-        ]
-    },
-    "blackbody": {
+    "hybridsed": {
         "kind": "sed",
         "inputs": [
             "texplosion",
             "redshift",
-            "physicsphotosphere"
+            "physicsni",
+            "tbmax"
         ],
         "requests": {
             "band_wave_ranges": "photometry"
@@ -101,7 +88,7 @@
     "losextinction": {
         "kind": "sed",
         "inputs": [
-            "blackbody",
+            "hybridsed",
             "nhhost",
             "rvhost",
             "ebv"
@@ -122,5 +109,11 @@
             "losextinction",
             "lumdist"
         ]
+    },
+    "tbmax": {
+        "kind": "parameter",
+        "value": 17.5,
+        "class": "parameter",
+        "latex": "t_{B,\\max}\\,{\\rm (days)}"
     }
 }
