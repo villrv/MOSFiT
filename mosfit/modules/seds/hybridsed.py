@@ -2,6 +2,7 @@
 import os
 
 import numpy as np
+from mosfit.constants import BOL_BAND_INDEX
 from mosfit.modules.seds.sed import SED
 
 
@@ -14,12 +15,17 @@ class HybridSED(SED):
     L_lambda(t) = L(t) * S(lambda, phase), with S the Hsiao et al. (2007) template multiplied by a smooth
     correction learned from CSP photometry (sn-modal-lc, build_hybrid_table.py) and normalised so that
     int S dlambda = 1 over 1500-25000 A. The luminosity L(t) comes from the engine (e.g. `physicsni`);
-    this module only decides how that light is spread over wavelength. phase = days since B maximum in the
-    rest frame = (t - t_explosion) - tbmax. The table covers -15 to +70 d; outside it the nearest edge is
-    used. Because S is a rest-frame spectrum, it works for any filters and any redshift.
+    this module only decides how that light is spread over wavelength. The table was trained with the
+    luminosities of the `physicsni` engine itself. phase = days since B maximum in the rest frame
+    = (t - t_explosion) - tpeakbol - tbpeak, where tpeakbol is the engine's bolometric peak and tbpeak the
+    B-max delay after it (free; prior from the training sample, stored in the table as tbpeak_mean/sd).
+    The table covers -15 to +70 d; outside it the nearest edge is used. Because S is a rest-frame
+    spectrum, it works for any filters and any redshift. $MOSFIT_HYBRIDSED_TABLE overrides the table
+    (e.g. one trained without the object being fitted).
     """
 
-    TABLE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'hybridsed_table.npz')
+    TABLE = os.environ.get('MOSFIT_HYBRIDSED_TABLE') or os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'hybridsed_table.npz')
     _cache = {}
 
     _REFERENCES = [
@@ -39,14 +45,16 @@ class HybridSED(SED):
         lum = np.asarray(kwargs[lum_key], dtype=float)
         times = np.asarray(kwargs['rest_times'], dtype=float)
         t_exp = kwargs[self.key('resttexplosion')]
-        tbmax = kwargs[self.key('tbmax')]
+        t_bmax = kwargs[self.key('tpeakbol')] + kwargs[self.key('tbpeak')]
+        if not np.isfinite(t_bmax):
+            t_bmax = 18.0
         band_indices = np.asarray(kwargs['all_band_indices'])
         frequencies = np.asarray(kwargs['all_frequencies'])
         zp1 = 1.0 + kwargs[self.key('redshift')]
         ph_tab, lam, shape = self._load()
 
         # Spectrum shape at each observation's rest-frame phase (linear in phase).
-        phase = np.clip(times - t_exp - tbmax, ph_tab[0], ph_tab[-1])
+        phase = np.clip(times - t_exp - t_bmax, ph_tab[0], ph_tab[-1])
         k = np.clip(np.searchsorted(ph_tab, phase) - 1, 0, len(ph_tab) - 2)
         f = ((phase - ph_tab[k]) / (ph_tab[k + 1] - ph_tab[k]))[:, None]
         spec = shape[k] * (1 - f) + shape[k + 1] * f                 # (n_obs, n_lam), 1/A
@@ -69,7 +77,7 @@ class HybridSED(SED):
             idx = np.flatnonzero(banded & (band_indices == bi))
             rest_wavs = np.asarray(self._sample_wavelengths[int(bi)], dtype=float) / zp1
             seds[idx, :len(rest_wavs)] = lum[idx, None] * at_wavs(idx, rest_wavs[None, :])
-        freq_rows = (band_indices < 0) & good
+        freq_rows = (band_indices < 0) & (band_indices != BOL_BAND_INDEX) & good
         for i in np.flatnonzero(freq_rows):
             rest_wav = self.C_OVER_ANG / frequencies[i] / zp1
             seds[i, 0] = lum[i] * at_wavs(np.array([i]), np.array([[rest_wav]]))[0, 0]

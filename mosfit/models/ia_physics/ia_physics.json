@@ -79,7 +79,7 @@
             "texplosion",
             "redshift",
             "physicsni",
-            "tbmax"
+            "tbpeak"
         ],
         "requests": {
             "band_wave_ranges": "photometry"
@@ -110,10 +110,10 @@
             "lumdist"
         ]
     },
-    "tbmax": {
+    "tbpeak": {
         "kind": "parameter",
-        "value": 17.5,
+        "value": 1.27,
         "class": "parameter",
-        "latex": "t_{B,\\max}\\,{\\rm (days)}"
+        "latex": "t_{B,\\max} - t_{\\rm bol,peak}\\,{\\rm (days)}"
     }
 }
