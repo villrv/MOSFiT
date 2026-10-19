@@ -24,6 +24,8 @@ class HybridSED(SED):
     Tables built with --physstretch carry phys_alpha/phys_b/phys_lnw_mean: then the stretch is NOT free but set by
     the physics light curve, s = exp(b + alpha (ln w - <ln w>)) * sstretch, w = `tquarterbol`; sstretch is then a small
     correction (exact tie: -F sstretch 1; or a tight prior, e.g. -P with sstretch sigma 0.04).
+    Tables with hsiao/w0/w1 (build_table_dr3.py --color) also index the COLOURS by the physics: S = H exp(W0 + x W1),
+    x = (ln w - color_lnw_mean) / color_lnw_sd, renormalised per phase; no extra free parameter.
     The table covers -15 to +70 d; outside it the nearest edge is used. Because S is a rest-frame
     spectrum, it works for any filters and any redshift. $MOSFIT_HYBRIDSED_TABLE overrides the table
     (e.g. one trained without the object being fitted).
@@ -42,7 +44,9 @@ class HybridSED(SED):
             d = np.load(self.TABLE)
             phys = (float(d['phys_alpha']), float(d['phys_b']), float(d['phys_lnw_mean'])) \
                 if 'phys_alpha' in d.files else None
-            self._cache[self.TABLE] = (d['phase'], d['lam'], d['shape'], phys)
+            color = (d['hsiao'], d['w0'], d['w1'], np.gradient(d['lam']), float(d['color_lnw_mean']),
+                     float(d['color_lnw_sd'])) if 'w1' in d.files else None
+            self._cache[self.TABLE] = (d['phase'], d['lam'], d['shape'], phys, color)
         return self._cache[self.TABLE]
 
     def process(self, **kwargs):
@@ -58,11 +62,18 @@ class HybridSED(SED):
         band_indices = np.asarray(kwargs['all_band_indices'])
         frequencies = np.asarray(kwargs['all_frequencies'])
         zp1 = 1.0 + kwargs[self.key('redshift')]
-        ph_tab, lam, shape, phys = self._load()
+        ph_tab, lam, shape, phys, color = self._load()
+        w = kwargs.get(self.key('tquarterbol'), np.nan)
+        if color is not None and np.isfinite(w) and w > 0:
+            # Colour indexed by the physics: S = H exp(W0 + x W1), x = standardised ln(peak->quarter time),
+            # renormalised at every phase so the spectrum still carries exactly L(t).
+            hs, w0, w1, dlam, lnw_mean, lnw_sd = color
+            x = (np.log(w) - lnw_mean) / lnw_sd
+            e = hs * np.exp(np.clip(w0 + x * w1, -10, 10))
+            shape = e / (e * dlam).sum(1)[:, None]
         if phys is not None:
             # Clock set by the physics: s = exp(b + alpha (ln w - <ln w>)), w = engine's peak->quarter time.
             alpha, b, lnw_mean = phys
-            w = kwargs.get(self.key('tquarterbol'), np.nan)
             stretch = float(np.exp(b + alpha * (np.log(w) - lnw_mean))) if np.isfinite(w) and w > 0 else 1.0
             # sstretch = small per-object correction on top of the physics value (fix to 1 for an exact tie).
             stretch *= kwargs.get(self.key('sstretch'), 1.0)
