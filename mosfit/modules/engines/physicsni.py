@@ -22,6 +22,7 @@ class PhysicsNi(Engine):
 
     PROFILE = 'scalzo'
     N_INT = 500
+    TREC_WIDTH = 3.0          # days; width of the opacity drop in ia_physics_kt
     PEAK_GRID = np.arange(4.0, 90.01, 0.5)
     _models = {}
 
@@ -41,6 +42,13 @@ class PhysicsNi(Engine):
         f_mix = fmin + (1.0 - fmin) * kwargs[self.key('fmix')]
         kappa = kwargs[self.key('kappa')]
         kappa_g = kwargs[self.key('kappagamma')]
+        # Optional time-dependent grey opacity (model ia_physics_kt): kappa drops smoothly from kappa to
+        # kappa * kapparatio around trec (rest days since explosion; Fe-group recombination), width TREC_WIDTH.
+        k_ratio = kwargs.get(self.key('kapparatio'))
+        k_of_t = None
+        if k_ratio is not None:
+            t_rec = kwargs[self.key('trec')]
+            k_of_t = lambda td: 1.0 - (1.0 - k_ratio) * 0.5 * (1.0 + np.tanh((td - t_rec) / self.TREC_WIDTH))
 
         lum = np.zeros_like(times)
         rph = np.zeros_like(times)
@@ -56,7 +64,8 @@ class PhysicsNi(Engine):
             try:
                 # Extra fixed grid to locate the bolometric peak (anchors the `physicssed` phase).
                 r = mod.light_curve(np.r_[ts[good], self.PEAK_GRID], m_ej, e_k, m_ni, f_mix=f_mix,
-                                    w_mix=0.05, kappa0=kappa, kappa_gamma=kappa_g, n_int=self.N_INT)
+                                    w_mix=0.05, kappa0=kappa, kappa_gamma=kappa_g, k_of_t=k_of_t,
+                                    n_int=self.N_INT)
                 lum[good] = np.maximum(r['L'][:n_good], 0.0)
                 rph[good] = r['R_ph'][:n_good]
                 v_max = r['v_max']

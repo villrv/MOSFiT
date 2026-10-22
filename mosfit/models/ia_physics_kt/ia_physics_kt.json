@@ -1,0 +1,140 @@
+{
+    "ebv": {
+        "kind": "parameter",
+        "value": 0.0,
+        "class": "parameter",
+        "inputs": [
+            "transient"
+        ],
+        "latex": "E({\\rm B} - {\\rm V})"
+    },
+    "nhhost": {
+        "kind": "parameter",
+        "value": 1e+18,
+        "class": "parameter",
+        "latex": "n_{\\rm H,host}",
+        "derived_keys": "avhost"
+    },
+    "texplosion": {
+        "kind": "parameter",
+        "value": 0.0,
+        "class": "parameter",
+        "latex": "t_{\\rm exp}\\,{\\rm (days)}",
+        "requests": {
+            "min_times": "transient"
+        }
+    },
+    "mejecta": {
+        "kind": "parameter",
+        "value": 1.2,
+        "class": "parameter",
+        "latex": "M_{\\rm ej}\\,(M_\\odot)"
+    },
+    "fnickel": {
+        "kind": "parameter",
+        "value": 0.4,
+        "class": "parameter",
+        "latex": "f_{\\rm Ni}"
+    },
+    "fmix": {
+        "kind": "parameter",
+        "value": 0.6,
+        "class": "parameter",
+        "latex": "f_{\\rm mix}"
+    },
+    "kappa": {
+        "kind": "parameter",
+        "value": 0.12,
+        "class": "parameter",
+        "latex": "\\kappa\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+    },
+    "kappagamma": {
+        "kind": "parameter",
+        "value": 0.03,
+        "class": "parameter",
+        "latex": "\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
+    },
+    "mfe": {
+        "kind": "parameter",
+        "value": 0.1,
+        "class": "parameter",
+        "latex": "M_{\\rm Fe}\\,(M_\\odot)"
+    },
+    "physicsni": {
+        "kind": "engine",
+        "inputs": [
+            "densetimes",
+            "mejecta",
+            "fnickel",
+            "fmix",
+            "kappa",
+            "kappagamma",
+            "mfe",
+            "texplosion",
+            "kapparatio",
+            "trec"
+        ]
+    },
+    "hybridsed": {
+        "kind": "sed",
+        "inputs": [
+            "texplosion",
+            "redshift",
+            "physicsni",
+            "tbpeak",
+            "sstretch"
+        ],
+        "requests": {
+            "band_wave_ranges": "photometry"
+        }
+    },
+    "losextinction": {
+        "kind": "sed",
+        "inputs": [
+            "hybridsed",
+            "nhhost",
+            "rvhost",
+            "ebv"
+        ],
+        "requests": {
+            "band_wave_ranges": "photometry"
+        }
+    },
+    "photometry": {
+        "kind": "observable",
+        "supports": [
+            "ultraviolet",
+            "optical",
+            "infrared",
+            "bolometric"
+        ],
+        "inputs": [
+            "losextinction",
+            "lumdist"
+        ]
+    },
+    "tbpeak": {
+        "kind": "parameter",
+        "value": 0.7,
+        "class": "parameter",
+        "latex": "t_{B,\\max} - t_{\\rm bol,peak}\\,{\\rm (days)}"
+    },
+    "sstretch": {
+        "kind": "parameter",
+        "value": 1.0,
+        "class": "parameter",
+        "latex": "s_{\\rm colour}"
+    },
+    "kapparatio": {
+        "kind": "parameter",
+        "value": 0.5,
+        "class": "parameter",
+        "latex": "\\kappa_{\rm late}/\\kappa"
+    },
+    "trec": {
+        "kind": "parameter",
+        "value": 25.0,
+        "class": "parameter",
+        "latex": "t_{\rm rec}\\,{\rm (days)}"
+    }
+}
