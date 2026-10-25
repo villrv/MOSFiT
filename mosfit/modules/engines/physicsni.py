@@ -8,6 +8,8 @@ Outputs dense luminosities and dense photospheric radii (tau = 2/3) for `physics
 the bolometric peak time `tpeakbol` (rest days since explosion) and the peak-to-quarter-peak time
 `tquarterbol` (rest days) for `hybridsed`.
 """
+import os
+
 import numpy as np
 
 from mosfit.modules.engines.engine import Engine
@@ -24,6 +26,11 @@ class PhysicsNi(Engine):
     N_INT = 500
     TREC_WIDTH = 3.0          # days; width of the opacity drop in ia_physics_kt
     PEAK_GRID = np.arange(4.0, 90.01, 0.5)
+    # Nickel edge: smoothed-step width (mass coordinate) and the innermost allowed edge q_min = a M_Ni/M_ej + b.
+    # Defaults (0.05; 1.02, 0.01) are the pass-1/2 settings; $MOSFIT_NI_W and $MOSFIT_NI_FLOOR="a,b" override them
+    # (floor test: 0.02 and "1.0,0.005", the tightest edge that keeps the nickel mass fraction <= 1).
+    W_MIX = float(os.environ.get('MOSFIT_NI_W', '0.05'))
+    FLOOR_A, FLOOR_B = (float(v) for v in os.environ.get('MOSFIT_NI_FLOOR', '1.02,0.01').split(','))
     _models = {}
 
     _REFERENCES = [
@@ -38,7 +45,7 @@ class PhysicsNi(Engine):
         m_ej = kwargs[self.key('mejecta')]
         m_ni = kwargs[self.key('fnickel')] * m_ej
         m_fe = kwargs.get(self.key('mfe'), 0.1)
-        fmin = min(0.999, 1.02 * m_ni / m_ej + 0.01)
+        fmin = min(0.999, self.FLOOR_A * m_ni / m_ej + self.FLOOR_B)
         f_mix = fmin + (1.0 - fmin) * kwargs[self.key('fmix')]
         kappa = kwargs[self.key('kappa')]
         kappa_g = kwargs[self.key('kappagamma')]
@@ -64,7 +71,7 @@ class PhysicsNi(Engine):
             try:
                 # Extra fixed grid to locate the bolometric peak (anchors the `physicssed` phase).
                 r = mod.light_curve(np.r_[ts[good], self.PEAK_GRID], m_ej, e_k, m_ni, f_mix=f_mix,
-                                    w_mix=0.05, kappa0=kappa, kappa_gamma=kappa_g, k_of_t=k_of_t,
+                                    w_mix=self.W_MIX, kappa0=kappa, kappa_gamma=kappa_g, k_of_t=k_of_t,
                                     n_int=self.N_INT)
                 lum[good] = np.maximum(r['L'][:n_good], 0.0)
                 rph[good] = r['R_ph'][:n_good]
