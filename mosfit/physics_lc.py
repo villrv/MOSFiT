@@ -1,7 +1,5 @@
-"""Physics light-curve solver used by the `physicsni` engine (from sn-modal-lc).
-
-
-modal_lc.py -- Pinto & Eastman (2000)-style modal solver for radioactively
+"""Physics light-curve solver used by the `physicsni` engine.
+Pinto & Eastman (2000)-style eigenmode solver for radioactively
 powered light curves in homologous expansion.
 
 Physics (comoving frame, radiation dominated, homologous, gray optical opacity):

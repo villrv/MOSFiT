@@ -20,7 +20,7 @@ from mosfit.physics_lc import ModalModel, kinetic_energy
 
 
 class PhysicsNi(Engine):
-    """Radioactive engine + diffusion from the physics model (modal_lc.py)."""
+    """Radioactive engine + diffusion from the physics model (mosfit/physics_lc.py)."""
 
     PROFILE = 'scalzo'
     N_INT = 500
