@@ -1,6 +1,6 @@
 """MOSFiT engine: physics-model light curve (eigenmode diffusion, any density profile,
 angle-averaged gamma transport, E_k from energy conservation). Replaces nickelcobalt + diffusion.
-Solver: mosfit/physics_lc.py (sn-modal-lc, github.com/vvillar/sn-modal-lc).
+Solver: mosfit/solvers/eigenmode_lc.py; E_k from the `ia_energetics` module.
 
 Parameters: mejecta (Msun), fnickel (M_Ni / M_ej), fmix (0-1, Ni outer edge between its minimum
 allowed value and the surface), kappa, kappagamma (cm^2/g), mfe (stable Fe, Msun), texplosion.
@@ -13,14 +13,14 @@ import os
 import numpy as np
 
 from mosfit.modules.engines.engine import Engine
-from mosfit.physics_lc import ModalModel, kinetic_energy
+from mosfit.solvers.eigenmode_lc import EigenmodeSolver
 
 
 # Important: Only define one ``Module`` class per file.
 
 
 class PhysicsNi(Engine):
-    """Radioactive engine + diffusion from the physics model (mosfit/physics_lc.py)."""
+    """Radioactive engine + diffusion from the physics model (mosfit/solvers/eigenmode_lc.py)."""
 
     PROFILE = 'scalzo'
     N_INT = 500
@@ -59,14 +59,14 @@ class PhysicsNi(Engine):
 
         lum = np.zeros_like(times)
         rph = np.zeros_like(times)
-        e_k = kinetic_energy(m_ej, m_ni, M_fe=m_fe)
+        e_k = kwargs[self.key('ekinetic')]
         ts = times - t_exp
         good = ts > 1e-3
         n_good = int(good.sum())
         t_peak = t_quarter = np.nan
         if e_k > 0 and m_ni < 0.95 * m_ej and n_good:
             if self.PROFILE not in self._models:
-                self._models[self.PROFILE] = ModalModel(self.PROFILE, n_modes=30)
+                self._models[self.PROFILE] = EigenmodeSolver(self.PROFILE, n_modes=30)
             mod = self._models[self.PROFILE]
             try:
                 # Extra fixed grid to locate the bolometric peak (anchors the `physicssed` phase).
@@ -86,7 +86,6 @@ class PhysicsNi(Engine):
         return {self.dense_key('luminosities'): lum,
                 self.dense_key('physradius'): rph,
                 self.key('vmax'): v_max / 1e5,
-                self.key('ekinetic'): e_k,
                 self.key('tpeakbol'): t_peak,
                 self.key('tquarterbol'): t_quarter}
 

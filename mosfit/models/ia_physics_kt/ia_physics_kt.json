@@ -60,6 +60,14 @@
         "class": "parameter",
         "latex": "M_{\\rm Fe}\\,(M_\\odot)"
     },
+    "ia_energetics": {
+        "kind": "energetic",
+        "inputs": [
+            "mejecta",
+            "fnickel",
+            "mfe"
+        ]
+    },
     "physicsni": {
         "kind": "engine",
         "inputs": [
@@ -69,10 +77,10 @@
             "fmix",
             "kappa",
             "kappagamma",
-            "mfe",
             "texplosion",
             "kapparatio",
-            "trec"
+            "trec",
+            "ia_energetics"
         ]
     },
     "ia_physics_constraints": {
@@ -80,7 +88,7 @@
         "inputs": [
             "mejecta",
             "fnickel",
-            "mfe"
+            "ia_energetics"
         ]
     },
     "hybridsed": {
