@@ -79,6 +79,14 @@
             "texplosion"
         ]
     },
+    "ia_physics_constraints": {
+        "kind": "constraint",
+        "inputs": [
+            "mejecta",
+            "fnickel",
+            "mfe"
+        ]
+    },
     "physicsphotosphere": {
         "kind": "photosphere",
         "inputs": [
@@ -121,6 +129,13 @@
         "inputs": [
             "losextinction",
             "lumdist"
+        ]
+    },
+    "likelihood": {
+        "kind": "objective",
+        "inputs": [
+            "diagonal",
+            "ia_physics_constraints"
         ]
     }
 }

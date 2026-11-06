@@ -73,6 +73,14 @@
             "texplosion"
         ]
     },
+    "ia_physics_constraints": {
+        "kind": "constraint",
+        "inputs": [
+            "mejecta",
+            "fnickel",
+            "mfe"
+        ]
+    },
     "hybridsed": {
         "kind": "sed",
         "inputs": [
@@ -122,5 +130,12 @@
         "value": 1.0,
         "class": "parameter",
         "latex": "s_{\\rm colour}"
+    },
+    "likelihood": {
+        "kind": "objective",
+        "inputs": [
+            "diagonal",
+            "ia_physics_constraints"
+        ]
     }
 }
