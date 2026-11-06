@@ -471,12 +471,28 @@ _WD_EB = np.array([
     0.52713, 0.53954, 0.55126, 0.56232, 0.57273, 0.58251, 0.59170, 0.60030, 0.60836, 0.61589,
     0.62292])                                         # 1e51 erg
 
+# Near and above the Chandrasekhar mass: Yoon & Langer (2005) Eqs. 22, 32-34 for rotating white dwarfs at
+# rho_c = 3e9 g/cm^3, as in Maeda & Iwamoto (2009) and Scalzo et al. (2010); used beyond their fitted M < 2.0 Msun as
+# those papers do. In 1e51 erg.
+_YL_X = np.log10(3e9)
+_YL_MNR = 1.436 * (1 - np.exp(-0.01316 * _YL_X ** 2.706 + 0.2493 * _YL_X))     # non-rotating mass, 1.389 Msun
+_YL_BENR = (-32.759747 + 6.7179802 * _YL_X - 0.28717609 * _YL_X ** 2) / 10
+_YL_C5 = (-370.73052 + 132.97204 * _YL_X - 16.117031 * _YL_X ** 2 + 0.66986678 * _YL_X ** 3) / 10
+
+
+def _yl_rot(M):
+    return _YL_BENR + _YL_C5 * np.clip(M - _YL_MNR, 0, None) ** 1.03
+
+
+_m = np.linspace(_YL_MNR, _WD_M[-1], 2001)
+_M_JOIN = _m[np.argmax(np.interp(_m, _WD_M, _WD_EB) >= _yl_rot(_m))]     # where the two curves cross, ~1.41 Msun
+
+
 def wd_binding(M):
-    """C/O white-dwarf binding energy (erg) at mass M (Msun), interpolated in the cold white-dwarf structure table above.
-    Above the table's top (1.444 Msun) it continues as M^(7/3) from the last row (the old power law's scaling), so the
-    super-Chandrasekhar ejecta masses the fits allow stay defined."""
+    """C/O white-dwarf binding energy (erg) at mass M (Msun): the cold white-dwarf structure table above up to _M_JOIN
+    (~1.41 Msun), then Yoon & Langer's rotating fit at rho_c = 3e9 g/cm^3, which is continuous with it there."""
     M = np.asarray(M, dtype=float)
-    eb = np.where(M <= _WD_M[-1], np.interp(M, _WD_M, _WD_EB), _WD_EB[-1] * (M / _WD_M[-1]) ** (7 / 3)) * 1e51
+    eb = np.where(M <= _M_JOIN, np.interp(M, _WD_M, _WD_EB), _yl_rot(M)) * 1e51
     return float(eb) if eb.ndim == 0 else eb
 
 def kinetic_energy(M_ej, M_ni, M_fe=0.1, M_co=0.02):
