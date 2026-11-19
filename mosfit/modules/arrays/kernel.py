@@ -72,10 +72,10 @@ class Kernel(Array):
             self._band_vs = np.full(
                 len(self._all_band_indices), self._variance)
 
-        # Compute relative errors for count-based observations.
-        self._band_vs[self._count_inds] = (
-            10.0**(self._band_vs[self._count_inds] / 2.5) -
-            1.0) * self._model_observations[self._count_inds]
+        # `variance` is a constant in the units being fitted: magnitudes for
+        # magnitude data, the data's flux units for flux data. (MOSFiT 2.1.0
+        # scaled it by the model flux for flux data, which lets a wrong model
+        # widen its own error bars; sn-modal-lc removed that.)
 
         self._o_band_vs = self._band_vs[self._observed]
 
@@ -116,9 +116,6 @@ class Kernel(Array):
         self._observed = np.array(kwargs.get('observed', []), dtype=bool)
         self._observation_types = kwargs.get('observation_types')
         self._n_obs = len(self._observed)
-        self._count_inds = np.logical_and(
-            self._observation_types != 'magnitude',
-            self._observation_types != 'luminosity')
 
         self._o_times = self._times[self._observed]
         self._o_waves = self._waves[self._observed]

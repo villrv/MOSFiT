@@ -1,0 +1,45 @@
+{
+    "nhhost": {
+        "min_value": 1e+16,
+        "max_value": 1e+23,
+        "log": true
+    },
+    "texplosion": {
+        "min_value": -30.0,
+        "max_value": 0.0
+    },
+    "mejecta": {
+        "min_value": 0.5,
+        "max_value": 2.5,
+        "log": true
+    },
+    "fnickel": {
+        "min_value": 0.05,
+        "max_value": 0.9,
+        "log": true
+    },
+    "fmix": {
+        "min_value": 0.0,
+        "max_value": 1.0
+    },
+    "kappa": {
+        "class": "gaussian",
+        "log": true,
+        "mu": 0.17337047880551057,
+        "sigma": 0.1182101278354802,
+        "min_value": 0.03,
+        "max_value": 0.4
+    },
+    "variance": {
+        "min_value": 0.001,
+        "max_value": 100.0,
+        "log": true
+    },
+    "tbpeak": {
+        "class": "gaussian",
+        "mu": 0.7,
+        "sigma": 3.0,
+        "min_value": -8.0,
+        "max_value": 10.0
+    }
+}

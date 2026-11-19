@@ -3,7 +3,7 @@
     "SLSN-I":["slsn", "csm", "magni"],
     "SLSN-II":["csm", "slsn", "magni"],
     "Ic":["ic", "default"],
-    "Ia":["ia", "default"],
+    "Ia":["ia", "ia_physics", "default"],
     "IIn":["default"],
     "Kilonova":["kilonova", "rprocess"],
     "NS + NS":["kilonova"],
