@@ -3,7 +3,7 @@ angle-averaged gamma transport, E_k from energy conservation). Replaces nickelco
 Solver: mosfit/solvers/eigenmode_lc.py; E_k from the `ia_energetics` module.
 
 Parameters: mejecta (Msun), fnickel (M_Ni / M_ej), fmix (0-1, Ni outer edge between its minimum
-allowed value and the surface), kappa, kappagamma (cm^2/g), mfe (stable Fe, Msun), texplosion.
+allowed value and the surface), kappa, kappagamma (cm^2/g), texplosion; E_k from `ia_energetics`.
 Outputs dense luminosities and dense photospheric radii (tau = 2/3) for `physicsphotosphere`,
 the bolometric peak time `tpeakbol` (rest days since explosion) and the peak-to-quarter-peak time
 `tquarterbol` (rest days) for `hybridsed`.
@@ -22,7 +22,12 @@ from mosfit.solvers.eigenmode_lc import EigenmodeSolver
 class PhysicsNi(Engine):
     """Radioactive engine + diffusion from the physics model (mosfit/solvers/eigenmode_lc.py)."""
 
-    PROFILE = 'scalzo'
+    # Density profile (eigenmode_lc.density_shape): Scalzo et al. 2014a by default; $MOSFIT_PROFILE overrides it
+    # (e.g. 'exponential' for the profile-dependence check of the final refit).
+    PROFILE = os.environ.get('MOSFIT_PROFILE', 'scalzo')
+    # Colour-clock index passed to hybridsed as `tquarterbol`: the peak-to-quarter time w (default) or, with
+    # $MOSFIT_CLOCK=dm15, the bolometric 15-day decline, or t1mag / t2mag, the time to fade 1 or 2 mag (only with tables built the same way, e.g. r1c31d).
+    CLOCK = os.environ.get('MOSFIT_CLOCK', 'w')
     N_INT = 500
     TREC_WIDTH = 3.0          # days; width of the opacity drop in ia_physics_kt
     PEAK_GRID = np.arange(4.0, 90.01, 0.5)
@@ -44,7 +49,6 @@ class PhysicsNi(Engine):
         t_exp = kwargs[self.key('resttexplosion')]
         m_ej = kwargs[self.key('mejecta')]
         m_ni = kwargs[self.key('fnickel')] * m_ej
-        m_fe = kwargs.get(self.key('mfe'), 0.1)
         fmin = min(0.999, self.FLOOR_A * m_ni / m_ej + self.FLOOR_B)
         f_mix = fmin + (1.0 - fmin) * kwargs[self.key('fmix')]
         kappa = kwargs[self.key('kappa')]
@@ -77,7 +81,9 @@ class PhysicsNi(Engine):
                 rph[good] = r['R_ph'][:n_good]
                 v_max = r['v_max']
                 t_peak = self._peak_time(r['L'][n_good:])
-                t_quarter = self._quarter_time(r['L'][n_good:])
+                t_quarter = (self._dm15_bol(r['L'][n_good:]) if self.CLOCK == 'dm15'
+                             else self._drop_time(r['L'][n_good:], float(self.CLOCK[1]))
+                             if self.CLOCK in ('t1mag', 't2mag') else self._quarter_time(r['L'][n_good:]))
             except ValueError:
                 v_max = 0.0
         else:
@@ -97,6 +103,24 @@ class PhysicsNi(Engine):
         den = y0 - 2.0 * y1 + y2
         shift = 0.5 * (y0 - y2) / den if den < 0 else 0.0
         return float(g[i] + np.clip(shift, -1.0, 1.0) * (g[1] - g[0]))
+
+    def _drop_time(self, lum, dmag):
+        """Rest days from bolometric peak until L has faded by dmag mag, on PEAK_GRID (MOSFIT_CLOCK=t1mag / t2mag)."""
+        g = self.PEAK_GRID
+        f0 = 10 ** (-0.4 * dmag)
+        i = int(np.argmax(lum)); j = i + int(np.argmax(lum[i:] < f0 * lum[i]))
+        if j == i:
+            return np.nan
+        f = (lum[j - 1] - f0 * lum[i]) / (lum[j - 1] - lum[j])
+        return float(g[j - 1] + f * (g[j] - g[j - 1]) - g[i])
+
+    def _dm15_bol(self, lum):
+        """Bolometric decline (mag) over the 15 rest days after peak, on PEAK_GRID (colour clock with MOSFIT_CLOCK=dm15)."""
+        g = self.PEAK_GRID
+        i = int(np.argmax(lum))
+        if g[i] + 15.0 > g[-1]:
+            return np.nan
+        return float(2.5 * np.log10(lum[i] / np.interp(g[i] + 15.0, g, lum)))
 
     def _quarter_time(self, lum):
         """Rest days from bolometric peak until L falls to a quarter of peak, on PEAK_GRID (sets the colour clock)."""

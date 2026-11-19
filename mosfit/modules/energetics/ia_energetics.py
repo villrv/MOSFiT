@@ -1,5 +1,5 @@
 """Definitions for the `IaEnergetics` class."""
-from mosfit.modules.energetics._ia_budget import kinetic_energy
+from mosfit.modules.energetics._ia_budget import kinetic_energy, stable_fe
 from mosfit.modules.energetics.energetic import Energetic
 
 
@@ -9,7 +9,8 @@ from mosfit.modules.energetics.energetic import Energetic
 class IaEnergetics(Energetic):
     """Kinetic energy of thermonuclear ejecta from energy conservation.
 
-    E_k = E_nuc - E_bind (Maeda & Iwamoto 2009): burning to nickel, stable iron and intermediate-mass elements,
+    E_k = E_nuc - E_bind (Maeda & Iwamoto 2009): burning to nickel, stable iron (a function of ejecta mass from Shen et al. 2018 detonation yields)
+    and intermediate-mass elements,
     minus the white-dwarf binding energy (cold C/O structure table; Yoon & Langer 2005 rotating fit near and above
     the Chandrasekhar mass). Returns `ekinetic` in erg, -1 for impossible masses (more burned mass than ejecta).
     """
@@ -23,5 +24,5 @@ class IaEnergetics(Energetic):
         """Process module."""
         m_ej = kwargs[self.key('mejecta')]
         m_ni = kwargs[self.key('fnickel')] * m_ej
-        m_fe = kwargs.get(self.key('mfe'), 0.1)
-        return {self.key('ekinetic'): kinetic_energy(m_ej, m_ni, M_fe=m_fe)}
+        m_fe = stable_fe(m_ej)
+        return {self.key('ekinetic'): kinetic_energy(m_ej, m_ni, M_fe=m_fe), self.key('mfe'): m_fe}

@@ -2,6 +2,8 @@
 
 Plain functions (the leading underscore keeps MOSFiT's module loader from registering them as modules).
 """
+import os
+
 import numpy as np
 
 
@@ -49,6 +51,37 @@ def wd_binding(M):
     M = np.asarray(M, dtype=float)
     eb = np.where(M <= _M_JOIN, np.interp(M, _WD_M, _WD_EB), _yl_rot(M)) * 1e51
     return float(eb) if eb.ndim == 0 else eb
+
+# Stable iron-group mass vs white-dwarf (ejecta) mass: Shen, Kasen, Miles & Townsley (2018, ApJ 854, 52) bare C/O
+# detonations, solar metallicity (Z = 0.01, their 1 Zsun), C/O 50/50, 12C+16O rate x1: total Cr-Zn minus 56Ni (Msun).
+# Linear extrapolation outside 0.8-1.1 Msun from the end segments, clipped to [0, 0.2] Msun.
+_FE_M = np.array([0.80, 0.85, 0.90, 1.00, 1.10])
+_FE_STABLE = np.array([0.01457, 0.02370, 0.03235, 0.04966, 0.06647])
+_FE_MAX = 0.2
+
+
+# Variant for the systematics check ($MOSFIT_FE_MODEL=chandra): above 1.1 Msun, stable Fe rises linearly to 0.25 Msun at
+# 1.38 Msun (the middle of the 0.1-0.3 Msun made by Chandrasekhar-mass deflagration-to-detonation models, mostly by
+# neutronization) and stays there.
+_FE_CH_M, _FE_CH = 1.38, 0.25
+
+
+def stable_fe(M, model=None):
+    """Stable iron-group mass (Msun) for ejecta mass M (Msun), from sub-Chandrasekhar detonation yields
+    (model 'chandra': steep rise toward the Chandrasekhar mass instead of the linear extrapolation)."""
+    M = np.asarray(M, dtype=float)
+    if (model or os.environ.get('MOSFIT_FE_MODEL', 'yields')) == 'chandra':
+        hi = _FE_STABLE[-1] + (np.minimum(M, _FE_CH_M) - _FE_M[-1]) * (_FE_CH - _FE_STABLE[-1]) / (_FE_CH_M - _FE_M[-1])
+        lo = _FE_STABLE[0] + (M - _FE_M[0]) * (_FE_STABLE[1] - _FE_STABLE[0]) / (_FE_M[1] - _FE_M[0])
+        fe = np.where(M < _FE_M[0], lo, np.where(M > _FE_M[-1], hi, np.interp(M, _FE_M, _FE_STABLE)))
+        fe = np.clip(fe, 0.0, _FE_CH)
+        return float(fe) if fe.ndim == 0 else fe
+    lo = _FE_STABLE[0] + (M - _FE_M[0]) * (_FE_STABLE[1] - _FE_STABLE[0]) / (_FE_M[1] - _FE_M[0])
+    hi = _FE_STABLE[-1] + (M - _FE_M[-1]) * (_FE_STABLE[-1] - _FE_STABLE[-2]) / (_FE_M[-1] - _FE_M[-2])
+    fe = np.where(M < _FE_M[0], lo, np.where(M > _FE_M[-1], hi, np.interp(M, _FE_M, _FE_STABLE)))
+    fe = np.clip(fe, 0.0, _FE_MAX)
+    return float(fe) if fe.ndim == 0 else fe
+
 
 def kinetic_energy(M_ej, M_ni, M_fe=0.1, M_co=0.02):
     """E_k = E_nuc - E_bind, with the remainder burned to IMEs."""

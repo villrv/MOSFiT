@@ -60,18 +60,11 @@
         "class": "parameter",
         "latex": "\\kappa_\\gamma\\,({\\rm cm}^{2}\\,{\\rm g}^{-1})"
     },
-    "mfe": {
-        "kind": "parameter",
-        "value": 0.1,
-        "class": "parameter",
-        "latex": "M_{\\rm Fe}\\,(M_\\odot)"
-    },
     "ia_energetics": {
         "kind": "energetic",
         "inputs": [
             "mejecta",
-            "fnickel",
-            "mfe"
+            "fnickel"
         ]
     },
     "physicsni": {
