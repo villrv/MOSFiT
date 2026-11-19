@@ -62,8 +62,8 @@ def density_shape(kind, x, h, **kw):
         eta = np.ones_like(x)
     elif kind == "exponential":           # rho ~ exp(-v/v_e), cut at v_max
         eta = np.exp(-x * kw.get("vmax_over_ve", 10.0))
-    elif kind == "scalzo":                # Scalzo et al. 2014a: [1+(v/v_KE)^3]^-3 (3-D-like)
-        eta = (1.0 + (x * kw.get("vmax_over_vke", 8.0)) ** 3) ** -3
+    elif kind == "scalzo":                # Scalzo et al. 2014a shape [1+(v/v0)^3]^-3, v0 = 1.11 sqrt(2 E_k/M)
+        eta = (1.0 + (x * kw.get("vmax_over_v0", 8.0)) ** 3) ** -3
     elif kind == "tabulated":             # e.g. HESMA: v_tab (any units), rho_tab
         vt, rt = np.asarray(kw["v_tab"], float), np.asarray(kw["rho_tab"], float)
         eta = np.exp(np.interp(x * kw.get("v_max", vt.max()), vt, np.log(rt)))
