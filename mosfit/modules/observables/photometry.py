@@ -601,8 +601,18 @@ class Photometry(Module):
 
         model_observations[nbs] = eff_fluxes[nbs] / self._dist_const
         model_observations[ybs] = self.abmag(eff_fluxes[ybs], offsets[ybs])
-        model_observations[cbs] = 10.0 ** (-0.4 * (model_observations[
-            cbs] - self._zps[cbs]))
+        # A count rate's zeropoint is in the band's magnitude system, unless
+        # the observation says `system: AB` (e.g. a flux density in Jy), in
+        # which case undo the band's AB offset before converting.
+        cmags = np.asarray(model_observations[cbs], dtype=np.float64)
+        systems = kwargs.get('all_systems')
+        if systems is not None and np.any(cbs):
+            ab_sys = np.array([
+                str(s).strip().lower() == 'ab'
+                for s in np.asarray(systems, dtype=object)[cbs]])
+            cmags = cmags + np.where(ab_sys, offsets[cbs], 0.0)
+        model_observations[cbs] = 10.0 ** (-0.4 * (
+            cmags - np.asarray(self._zps[cbs], dtype=np.float64)))
         lumo_dense = np.asarray(self._luminosities, dtype=np.float64)
         model_observations[lum_mask] = lumo_dense[lum_mask]
         mbol_fit_mask = np.logical_and(

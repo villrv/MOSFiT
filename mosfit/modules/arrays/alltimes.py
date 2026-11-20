@@ -90,10 +90,15 @@ class AllTimes(Array):
                 [x[9] for x in zip(*self._all_observations)])
             self._measures = np.array(
                 [x[10] for x in zip(*self._all_observations)], dtype = object)
+            # A count rate with a zeropoint in a magnitude-type band is fit
+            # in flux ("magcount"): always when no magnitude is given, and
+            # when one is given only if `--flux` was passed.
+            fit_flux = self._model._fitter._prefer_fluxes
             self._observation_types = np.array([
                 'magcount' if
-                ('countrate' in msr and 'magnitude' in msr and zp is not None
-                 and self._model._fitter._prefer_fluxes) else
+                ('countrate' in msr and zp is not None and bi >= 0 and
+                 self._photometry._band_kinds[bi] == 'magnitude' and
+                 ('magnitude' not in msr or fit_flux)) else
                 'luminosity' if (
                     bi == BOL_BAND_INDEX and _pure_luminosity_measure(msr)) else
                 'magnitude' if bi == BOL_BAND_INDEX else

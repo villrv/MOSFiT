@@ -86,6 +86,7 @@ def get_parser(printer=None):
         help=prt.text('parser_limiting_magnitude'))
 
     parser.add_argument(
+        '--flux',
         '--prefer-fluxes',
         dest='prefer_fluxes',
         default=False,

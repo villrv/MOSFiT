@@ -140,7 +140,7 @@
     "parser_parameter_paths": "Paths to parameter files corresponding to each model file; length of this list should be equal to the length of the list of models",
     "parser_post_burn": "Run emcee this many more iterations after the burn-in phase. The burn-in phase will thus be run for (i - p) iterations, where i is the total number of iterations set with `-i` and p is the value of this parameter.",
     "parser_prefer_cache": "MOSFiT will prefer to use cached data and will only use online resources if they are not available locally.",
-    "parser_prefer_fluxes": "If magnitudes and fluxes exist for the same observation(s), prefer the flux representation over the magnitude representation.",
+    "parser_prefer_fluxes": "Fit photometry in flux space wherever a flux is available, including points that also give a magnitude (`--prefer-fluxes` is an alias). Optical/IR/UV points given only as a flux are always fit in flux: either `fluxdensity` with `u_fluxdensity` (nJy, µJy, mJy or Jy; AB) and a `band`, or `countrate` with a `zeropoint` (magnitude = zeropoint - 2.5 log10 countrate) and a `band`. Errors (`e_fluxdensity` / `e_countrate`) are used in the same flux units.",
     "parser_print_trees": "Print the full dependency trees of each model.",
     "parser_quick_save": "Save the minimum required output files and overwrite any existing files.",
     "parser_quiet": "Print minimal output upon execution. Don't display our amazing logo :-(",
