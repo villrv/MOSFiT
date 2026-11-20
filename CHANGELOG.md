@@ -20,6 +20,30 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Optical/IR/UV photometry given only as a flux is fit in flux: a
+  `fluxdensity` with `u_fluxdensity` (nJy, µJy, mJy or Jy, AB) and a `band`,
+  or a `countrate` with a `zeropoint` and a `band`. Before, such points were
+  dropped as radio or X-ray data unless they also had a magnitude.
+- `--flux` to fit in flux the points that give both a magnitude and a flux
+  (`--prefer-fluxes` still works as an alias).
+
+### Changed
+
+- Band fluxes are rescaled internally to µJy (zeropoint 23.9), so the
+  likelihood and the `variance` parameter no longer depend on the flux units
+  or zeropoint of the input.
+  For count rates with another zeropoint, `variance` used to be in those
+  counts: at zeropoint 30, 1 µJy is 275 counts, so the default prior
+  (0.001–100) allowed almost no extra scatter and now allows up to 100 µJy.
+  Fits of such data can change.
+- A count-rate zeropoint tagged `"system": "AB"` on a band defined in another
+  system now gets that band's AB offset.
+- Model rows for flux-only points are written as `countrate` + `zeropoint`
+  without a magnitude; writing them with a magnitude crashed astrocats'
+  photometry sort.
+
 ## [2.1.1] - 2026-10-28
 
 Filter curves can be downloaded from the SVO Filter Profile Service again,

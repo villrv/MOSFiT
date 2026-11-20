@@ -1,0 +1,827 @@
+{
+  "SN2018bhp": {
+    "name": "SN2018bhp",
+    "sources": [
+      {
+        "name": "2025A&A...694A...1R",
+        "bibcode": "2025A&A...694A...1R",
+        "reference": "Rigault et al. (2025), ZTF SN Ia DR2",
+        "alias": "1"
+      }
+    ],
+    "alias": [
+      {
+        "value": "SN2018bhp",
+        "source": "1"
+      },
+      {
+        "value": "ZTF18aaqfziz",
+        "source": "1"
+      }
+    ],
+    "claimedtype": [
+      {
+        "value": "Ia",
+        "source": "1"
+      }
+    ],
+    "ra": [
+      {
+        "value": "224.76911",
+        "u_value": "floatdegrees",
+        "source": "1"
+      }
+    ],
+    "dec": [
+      {
+        "value": "19.587287",
+        "u_value": "floatdegrees",
+        "source": "1"
+      }
+    ],
+    "redshift": [
+      {
+        "value": "0.0538",
+        "source": "1"
+      }
+    ],
+    "ebv": [
+      {
+        "value": "0.034",
+        "source": "1"
+      }
+    ],
+    "photometry": [
+      {
+        "time": "58226.29471",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "3.38188e-06",
+        "e_fluxdensity": "3.11013e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58226.33619",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "-4.99827e-06",
+        "e_fluxdensity": "2.83853e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58227.37763",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "8.66857e-06",
+        "e_fluxdensity": "5.41134e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58229.31552",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "9.34732e-06",
+        "e_fluxdensity": "2.19991e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58229.35652",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "3.39459e-06",
+        "e_fluxdensity": "2.70113e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58231.30984",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.55805e-05",
+        "e_fluxdensity": "4.40613e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58232.35817",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.96588e-05",
+        "e_fluxdensity": "5.46865e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58235.33523",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "6.56937e-05",
+        "e_fluxdensity": "8.25718e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58236.29139",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "9.06456e-05",
+        "e_fluxdensity": "9.77322e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58236.32986",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "9.92669e-05",
+        "e_fluxdensity": "1.14272e-05",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58236.33031",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.03675e-04",
+        "e_fluxdensity": "1.23584e-05",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58237.29785",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "9.30582e-05",
+        "e_fluxdensity": "1.24163e-05",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58242.33464",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.87251e-04",
+        "e_fluxdensity": "3.84404e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58242.37794",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.96119e-04",
+        "e_fluxdensity": "3.67506e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58245.33681",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.11405e-04",
+        "e_fluxdensity": "7.78568e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58248.29530",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.14111e-04",
+        "e_fluxdensity": "5.38491e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58248.31573",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.89129e-04",
+        "e_fluxdensity": "2.80694e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58249.29781",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.25186e-04",
+        "e_fluxdensity": "1.03587e-05",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58254.38135",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "9.19935e-05",
+        "e_fluxdensity": "3.58651e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58255.27286",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.78637e-04",
+        "e_fluxdensity": "3.76699e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58255.33794",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.14183e-04",
+        "e_fluxdensity": "2.17593e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58258.24832",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.49698e-04",
+        "e_fluxdensity": "4.93623e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58261.29753",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.32114e-04",
+        "e_fluxdensity": "9.69646e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58267.21505",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "6.63932e-05",
+        "e_fluxdensity": "1.20840e-05",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58270.29994",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.05968e-04",
+        "e_fluxdensity": "4.38182e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58272.33682",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "8.51491e-05",
+        "e_fluxdensity": "5.46006e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58273.25278",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.51817e-05",
+        "e_fluxdensity": "2.19978e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58273.25376",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.02091e-05",
+        "e_fluxdensity": "2.09696e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58274.27329",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.25671e-05",
+        "e_fluxdensity": "1.78610e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58275.26755",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.31732e-05",
+        "e_fluxdensity": "2.05868e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58276.25606",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.80158e-05",
+        "e_fluxdensity": "1.93247e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58276.25698",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.01331e-05",
+        "e_fluxdensity": "2.45657e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58276.27708",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "6.32116e-05",
+        "e_fluxdensity": "2.45683e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58276.27800",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "6.52343e-05",
+        "e_fluxdensity": "2.21323e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58277.16888",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "7.31470e-05",
+        "e_fluxdensity": "5.20496e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58277.27400",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "6.38100e-05",
+        "e_fluxdensity": "2.77371e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58279.23427",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.54047e-05",
+        "e_fluxdensity": "2.86744e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58279.23519",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.58190e-05",
+        "e_fluxdensity": "2.53916e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58279.29556",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.94171e-05",
+        "e_fluxdensity": "2.16991e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58279.31235",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "7.43864e-06",
+        "e_fluxdensity": "2.97556e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58280.18934",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.49459e-05",
+        "e_fluxdensity": "3.31801e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58280.27380",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.44281e-05",
+        "e_fluxdensity": "2.06565e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58281.18666",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.11809e-05",
+        "e_fluxdensity": "3.54108e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58281.21076",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.73339e-05",
+        "e_fluxdensity": "3.03780e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58282.21130",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "4.77574e-05",
+        "e_fluxdensity": "2.94567e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58282.21221",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.51288e-05",
+        "e_fluxdensity": "2.70845e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58282.28870",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.39062e-05",
+        "e_fluxdensity": "2.87738e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58282.28962",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.01767e-05",
+        "e_fluxdensity": "4.00924e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58283.22719",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "4.07455e-05",
+        "e_fluxdensity": "2.76061e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58283.27315",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.34969e-05",
+        "e_fluxdensity": "3.00945e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58284.18972",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.04536e-05",
+        "e_fluxdensity": "2.95386e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58284.23249",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.14210e-05",
+        "e_fluxdensity": "2.33388e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58286.19113",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "3.53368e-05",
+        "e_fluxdensity": "4.61941e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58288.21309",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "5.23576e-06",
+        "e_fluxdensity": "3.16113e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58288.25589",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "3.93156e-05",
+        "e_fluxdensity": "3.12983e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58290.17166",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "4.47397e-05",
+        "e_fluxdensity": "8.50180e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58291.23622",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "3.00764e-05",
+        "e_fluxdensity": "4.93692e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58294.19066",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "8.65308e-06",
+        "e_fluxdensity": "5.22124e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58295.32698",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.46572e-05",
+        "e_fluxdensity": "6.65984e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58297.27339",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.84939e-05",
+        "e_fluxdensity": "5.65122e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58299.29505",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.24236e-05",
+        "e_fluxdensity": "5.96417e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58300.17513",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.56114e-05",
+        "e_fluxdensity": "4.11402e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58300.19185",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.63918e-05",
+        "e_fluxdensity": "2.80573e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58303.21209",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.11304e-05",
+        "e_fluxdensity": "2.76415e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58306.19212",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.27861e-05",
+        "e_fluxdensity": "3.01762e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58306.21566",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "7.49740e-06",
+        "e_fluxdensity": "2.41855e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58312.19253",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "2.31351e-05",
+        "e_fluxdensity": "2.88696e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58312.25580",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.22837e-05",
+        "e_fluxdensity": "3.14503e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58316.16995",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "1.11794e-05",
+        "e_fluxdensity": "5.10214e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      },
+      {
+        "time": "58320.21154",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "fluxdensity": "8.52031e-06",
+        "e_fluxdensity": "5.43911e-06",
+        "u_fluxdensity": "Jy",
+        "source": "1"
+      }
+    ]
+  }
+}

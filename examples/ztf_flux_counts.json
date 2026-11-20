@@ -1,0 +1,827 @@
+{
+  "SN2018bhp": {
+    "name": "SN2018bhp",
+    "sources": [
+      {
+        "name": "2025A&A...694A...1R",
+        "bibcode": "2025A&A...694A...1R",
+        "reference": "Rigault et al. (2025), ZTF SN Ia DR2",
+        "alias": "1"
+      }
+    ],
+    "alias": [
+      {
+        "value": "SN2018bhp",
+        "source": "1"
+      },
+      {
+        "value": "ZTF18aaqfziz",
+        "source": "1"
+      }
+    ],
+    "claimedtype": [
+      {
+        "value": "Ia",
+        "source": "1"
+      }
+    ],
+    "ra": [
+      {
+        "value": "224.76911",
+        "u_value": "floatdegrees",
+        "source": "1"
+      }
+    ],
+    "dec": [
+      {
+        "value": "19.587287",
+        "u_value": "floatdegrees",
+        "source": "1"
+      }
+    ],
+    "redshift": [
+      {
+        "value": "0.0538",
+        "source": "1"
+      }
+    ],
+    "ebv": [
+      {
+        "value": "0.034",
+        "source": "1"
+      }
+    ],
+    "photometry": [
+      {
+        "time": "58226.29471",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "931.446",
+        "e_countrate": "856.602",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58226.33619",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "-1376.637",
+        "e_countrate": "781.797",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58227.37763",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2387.524",
+        "e_countrate": "1490.407",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58229.31552",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2574.466",
+        "e_countrate": "605.904",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58229.35652",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "934.948",
+        "e_countrate": "743.954",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58231.30984",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "7045.462",
+        "e_countrate": "1213.548",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58232.35817",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "8168.707",
+        "e_countrate": "1506.193",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58235.33523",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "18093.541",
+        "e_countrate": "2274.215",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58236.29139",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "24965.870",
+        "e_countrate": "2691.769",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58236.32986",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "27340.373",
+        "e_countrate": "3147.322",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58236.33031",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "28554.553",
+        "e_countrate": "3403.794",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58237.29785",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "25630.359",
+        "e_countrate": "3419.722",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58242.33464",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "51573.186",
+        "e_countrate": "1058.736",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58242.37794",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "54015.698",
+        "e_countrate": "1012.195",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58245.33681",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "58225.781",
+        "e_countrate": "2144.355",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58248.29530",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "58971.092",
+        "e_countrate": "1483.129",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58248.31573",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "52090.564",
+        "e_countrate": "773.095",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58249.29781",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "34478.980",
+        "e_countrate": "2853.033",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58254.38135",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "25337.100",
+        "e_countrate": "987.807",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58255.27286",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "49200.731",
+        "e_countrate": "1037.515",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58255.33794",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "31448.540",
+        "e_countrate": "599.302",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58258.24832",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "41230.310",
+        "e_countrate": "1359.550",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58261.29753",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "36387.228",
+        "e_countrate": "2670.627",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58267.21505",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "18286.203",
+        "e_countrate": "3328.217",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58270.29994",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "29185.903",
+        "e_countrate": "1206.854",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58272.33682",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "23452.021",
+        "e_countrate": "1503.826",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58273.25278",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6935.606",
+        "e_countrate": "605.869",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58273.25376",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "5566.048",
+        "e_countrate": "577.551",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58274.27329",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6215.493",
+        "e_countrate": "491.934",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58275.26755",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3628.189",
+        "e_countrate": "567.007",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58276.25606",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "4961.968",
+        "e_countrate": "532.246",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58276.25698",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "5545.103",
+        "e_countrate": "676.595",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58276.27708",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "17409.911",
+        "e_countrate": "676.667",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58276.27800",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "17967.032",
+        "e_countrate": "609.573",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58277.16888",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "20146.364",
+        "e_countrate": "1433.566",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58277.27400",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "17574.739",
+        "e_countrate": "763.944",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58279.23427",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "15259.717",
+        "e_countrate": "789.759",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58279.23519",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "15373.826",
+        "e_countrate": "699.343",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58279.29556",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "5347.909",
+        "e_countrate": "597.642",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58279.31235",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2048.772",
+        "e_countrate": "819.536",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58280.18934",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "15133.360",
+        "e_countrate": "913.855",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58280.27380",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3973.821",
+        "e_countrate": "568.928",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58281.18666",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "14096.386",
+        "e_countrate": "975.295",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58281.21076",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "15791.076",
+        "e_countrate": "836.679",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58282.21130",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "13153.485",
+        "e_countrate": "811.306",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58282.21221",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "15183.745",
+        "e_countrate": "745.970",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58282.28870",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3830.083",
+        "e_countrate": "792.496",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58282.28962",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2802.900",
+        "e_countrate": "1104.236",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58283.22719",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "11222.243",
+        "e_countrate": "760.336",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58283.27315",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3717.354",
+        "e_countrate": "828.873",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58284.18972",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "13896.071",
+        "e_countrate": "813.562",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58284.23249",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3145.596",
+        "e_countrate": "642.805",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58286.19113",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "9732.568",
+        "e_countrate": "1272.291",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58288.21309",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "1442.048",
+        "e_countrate": "870.649",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58288.25589",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "10828.427",
+        "e_countrate": "862.027",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58290.17166",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "12322.338",
+        "e_countrate": "2341.590",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58291.23622",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "8283.716",
+        "e_countrate": "1359.742",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58294.19066",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2383.255",
+        "e_countrate": "1438.049",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58295.32698",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6791.164",
+        "e_countrate": "1834.273",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58297.27339",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "7847.873",
+        "e_countrate": "1556.474",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58299.29505",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6175.975",
+        "e_countrate": "1642.669",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58300.17513",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "7053.958",
+        "e_countrate": "1133.094",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58300.19185",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "4514.678",
+        "e_countrate": "772.761",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58303.21209",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3065.575",
+        "e_countrate": "761.310",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58306.19212",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6275.811",
+        "e_countrate": "831.122",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58306.21566",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2064.955",
+        "e_countrate": "666.125",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58312.19253",
+        "u_time": "MJD",
+        "band": "r",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "6371.933",
+        "e_countrate": "795.133",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58312.25580",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3383.223",
+        "e_countrate": "866.214",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58316.16995",
+        "u_time": "MJD",
+        "band": "g",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "3079.059",
+        "e_countrate": "1405.246",
+        "zeropoint": "30.000",
+        "source": "1"
+      },
+      {
+        "time": "58320.21154",
+        "u_time": "MJD",
+        "band": "i",
+        "telescope": "ZTF",
+        "instrument": "ZTF",
+        "countrate": "2346.689",
+        "e_countrate": "1498.055",
+        "zeropoint": "30.000",
+        "source": "1"
+      }
+    ]
+  }
+}

@@ -18,6 +18,92 @@ def _entry_field_nonempty(entry, name):
     return name in entry and entry.get(name) not in (None, '')
 
 
+# Flux-density units accepted for optical/IR/UV band photometry, in Jy.
+_FLUX_DENSITY_UNITS_JY = {
+    'njy': 1.0e-9, 'nanojy': 1.0e-9, 'nanojansky': 1.0e-9,
+    'µjy': 1.0e-6, 'μjy': 1.0e-6, 'ujy': 1.0e-6, 'microjy': 1.0e-6,
+    'microjansky': 1.0e-6,
+    'mjy': 1.0e-3, 'millijy': 1.0e-3, 'millijansky': 1.0e-3,
+    'jy': 1.0, 'jansky': 1.0,
+}
+_AB_ZERO_FLUX_JY = 3631.0
+
+
+def _is_band_flux(entry):
+    """True for a flux measured through an optical/IR/UV band.
+
+    Such a point has a ``countrate`` and the ``zeropoint`` linking it to
+    magnitudes (``magnitude = zeropoint - 2.5 log10(countrate)``) and a
+    ``band``, but no ``magnitude``. Without a zeropoint, a lone count rate is
+    an X-ray observation.
+    """
+    return (_entry_field_nonempty(entry, 'countrate') and
+            _entry_field_nonempty(entry, 'zeropoint') and
+            _entry_field_nonempty(entry, 'band') and
+            not _entry_field_nonempty(entry, 'magnitude'))
+
+
+def _band_flux_density_to_countrate(entry):
+    """Rewrite a band flux density (no ``frequency``) as an AB count rate.
+
+    ``fluxdensity`` in ``u_fluxdensity`` (nJy, µJy, mJy or Jy; µJy if not
+    given) becomes ``countrate`` with the AB zeropoint for that unit, and
+    ``system`` is set to AB unless the entry gives one. Other entries are
+    returned unchanged.
+    """
+    if not (_entry_field_nonempty(entry, 'fluxdensity') and
+            _entry_field_nonempty(entry, 'band') and
+            'frequency' not in entry and
+            not _entry_field_nonempty(entry, 'magnitude') and
+            not _entry_field_nonempty(entry, 'countrate')):
+        return entry
+    unit = str(entry.get('u_fluxdensity') or 'µJy').strip()
+    scale = _FLUX_DENSITY_UNITS_JY.get(unit.lower())
+    if scale is None:
+        raise ValueError(
+            'Unrecognized `u_fluxdensity` `{}` for band `{}`; use one of '
+            'nJy, µJy, mJy or Jy.'.format(unit, entry.get('band')))
+    new = OrderedDict(
+        (k, v) for k, v in entry.items() if 'fluxdensity' not in k)
+    for k, v in entry.items():
+        if 'fluxdensity' in k and k != 'u_fluxdensity':
+            new[k.replace('fluxdensity', 'countrate')] = v
+    new['zeropoint'] = str(2.5 * np.log10(_AB_ZERO_FLUX_JY / scale))
+    if not _entry_field_nonempty(entry, 'system'):
+        new['system'] = 'AB'
+    return new
+
+
+# Band fluxes are rescaled to this zeropoint (µJy for AB bands) so that the
+# `variance` parameter, a constant in the fitted units, means the same thing
+# whatever units the data came in.
+_BAND_FLUX_ZEROPOINT = 2.5 * np.log10(_AB_ZERO_FLUX_JY / 1.0e-6)
+_COUNTRATE_VALUE_KEYS = (
+    'countrate', 'e_countrate', 'e_upper_countrate', 'e_lower_countrate')
+
+
+def _rescale_band_flux(entry):
+    """Rescale a band count rate and its errors to `_BAND_FLUX_ZEROPOINT`."""
+    if not (_entry_field_nonempty(entry, 'countrate') and
+            _entry_field_nonempty(entry, 'zeropoint') and
+            _entry_field_nonempty(entry, 'band') and
+            is_number(entry['zeropoint'])):
+        return entry
+    factor = 10.0 ** (-0.4 * (float(entry['zeropoint']) -
+                              _BAND_FLUX_ZEROPOINT))
+    new = OrderedDict(entry)
+    for k in _COUNTRATE_VALUE_KEYS:
+        if not _entry_field_nonempty(entry, k):
+            continue
+        vals = listify(entry[k])
+        if not all(is_number(v) for v in vals):
+            return entry
+        scaled = [str(float(v) * factor) for v in vals]
+        new[k] = scaled if isinstance(entry[k], list) else scaled[0]
+    new['zeropoint'] = str(_BAND_FLUX_ZEROPOINT)
+    return new
+
+
 # Maps catalog photometry subkeys → ``_data`` array names. (``luminosity`` must not
 # pluralize to ``luminosities`` — that key is reserved for model SED normalization.)
 _PHOTOMETRY_DATA_KEYS = {
@@ -139,6 +225,11 @@ class Transient(Module):
             # Only include data that contains all subkeys
             for entry in subdata:
                 mbol_here = False
+                band_flux = False
+                if key == 'photometry':
+                    entry = _rescale_band_flux(
+                        _band_flux_density_to_countrate(entry))
+                    band_flux = _is_band_flux(entry)
                 if any([x not in entry for x in req_subkeys]):
                     continue
                 if any([x in entry and entry[x] is not False for x in exc_subkeys]):
@@ -175,7 +266,8 @@ class Transient(Module):
                          'unabsorbedflux' in entry or
                          'flux' in entry) and
                         'magnitude' not in entry and
-                            'fluxdensity' not in entry):
+                            'fluxdensity' not in entry and
+                            not band_flux):
                         self._kinds_needed.add('x-ray')
                         if ('x-ray' in ex_kinds or
                             (not len(ex_kinds) or 'none' not in ex_kinds) and
@@ -241,7 +333,7 @@ class Transient(Module):
                             continue
 
                     # Bolometric magnitude does not imply optical/IR/UV bands.
-                    if ('magnitude' in entry and not (
+                    if (('magnitude' in entry or band_flux) and not (
                             mag_bol_band_here)):
                         self._kinds_needed |= set(
                             ['infrared', 'optical', 'ultraviolet'])
@@ -300,7 +392,7 @@ class Transient(Module):
 
                     is_bolom_mag_row = (
                         mbol_here or mag_bol_band_here)
-                    if not is_bolom_mag_row:
+                    if not is_bolom_mag_row and not band_flux:
                         if ((('magnitude' in entry) != ('band' in entry)) or
                             ((('fluxdensity' in entry) != (
                                 'frequency' in entry)) and (

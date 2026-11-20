@@ -37,6 +37,62 @@ For ASCII tables, pass the path to the file(s); ``MOSFiT`` converts them where n
 
 If the ASCII file matches required columns closely, conversion may proceed quietly; otherwise you will be prompted to map columns. When multiple files share one format, questions are driven from the first file.
 
+.. _flux:
+
+----------------
+Fitting in flux
+----------------
+
+Optical, infrared and ultraviolet photometry can be given as a flux instead of
+a magnitude, and is then fit in flux: the residual is model minus data flux and
+the errors are the flux errors you give. This keeps faint points, including
+negative fluxes from forced photometry, on their real (Gaussian) errors.
+
+A point is fit in flux when it has a ``band`` and no ``magnitude``, and either
+
+- a flux density: ``fluxdensity``, ``e_fluxdensity`` and ``u_fluxdensity``
+  (``nJy``, ``µJy``, ``mJy`` or ``Jy``; ``µJy`` if not given). These are AB
+  fluxes; MOSFiT applies the band's AB offset if the band is defined in
+  another system (e.g. Vega). No ``frequency``: a flux density with a
+  frequency is a radio point; or
+- a count rate on a magnitude scale: ``countrate``, ``e_countrate`` and a
+  ``zeropoint``, with ``magnitude = zeropoint - 2.5 log10(countrate)`` in the
+  band's own system (or in AB if the point has ``"system": "AB"``). For ZTF
+  forced photometry this is ``forcediffimflux``, ``forcediffimfluxunc`` and
+  ``zpdiff``.
+
+.. code-block:: json
+
+    {"time": "58248.31573", "u_time": "MJD", "band": "g", "telescope": "ZTF",
+     "instrument": "ZTF", "fluxdensity": "1.89129e-04",
+     "e_fluxdensity": "2.80694e-06", "u_fluxdensity": "Jy", "source": "1"}
+
+Two complete events are in ``examples/``: SN 2018bhp (ZTF18aaqfziz), with its
+ZTF g/r/i forced photometry from the ZTF SN Ia DR2 (Rigault et al. 2025), given
+as flux densities in Jy (``ztf_flux_jy.json``) and as the DR2 fluxes with their
+zeropoint of 30 (``ztf_flux_counts.json``). Both give the same fit:
+
+.. code-block:: bash
+
+    mosfit -e examples/ztf_flux_jy.json -m ia_physics
+
+Forced photometry usually includes epochs before the explosion. Model
+explosion times (``texplosion``) are measured from the first data point and
+most models only allow them before it (``max_value`` 0), so either start the
+data near the explosion or raise ``texplosion``'s ``max_value`` in your
+``parameters.json``.
+
+Internally every flux is rescaled to µJy (zeropoint 23.9), so the result does
+not depend on the units you chose, and the ``variance`` parameter, an extra
+error added in quadrature in the fitted units, is in µJy for flux points (and
+in magnitudes for magnitude points). Model light curves for flux points are
+written as ``countrate`` with ``zeropoint`` 23.9 (``u_countrate`` ``µJy`` for
+AB).
+
+A count rate without a ``zeropoint`` is treated as X-ray data. If a point has
+both a ``magnitude`` and a flux, the magnitude is fit unless ``--flux`` is
+passed (``--prefer-fluxes`` is an alias).
+
 .. _sampling:
 
 ----------------

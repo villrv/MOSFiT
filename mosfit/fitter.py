@@ -713,28 +713,33 @@ class Fitter(object):
                             photodict[PHOTOMETRY.E_MAGNITUDE] = (
                                 output['model_variances'][i])
                     elif output['observation_types'][i] == 'magcount':
-                        if output['model_observations'][i] == 0.0:
+                        ct = output['model_observations'][i]
+                        if ct == 0.0:
                             continue
+                        e_ct = output['model_variances'][i]
+                        zp = output['all_zeropoints'][i]
                         photodict[PHOTOMETRY.BAND] = output['bands'][i]
-                        photodict[PHOTOMETRY.
-                                  COUNT_RATE] = output['model_observations'][i]
-                        photodict[PHOTOMETRY.
-                                  E_COUNT_RATE] = output['model_variances'][i]
-                        photodict[PHOTOMETRY.MAGNITUDE] = -2.5 * np.log10(
-                            output['model_observations']
-                            [i]) + output['all_zeropoints'][i]
-                        photodict[PHOTOMETRY.E_UPPER_MAGNITUDE] = 2.5 * (
-                            np.log10(output['model_observations'][i] +
-                                     output['model_variances'][i]) - np.log10(
-                                         output['model_observations'][i]))
-                        if (output['model_variances'][i] >
-                                output['model_observations'][i]):
-                            photodict[PHOTOMETRY.UPPER_LIMIT] = True
-                        else:
-                            photodict[PHOTOMETRY.E_LOWER_MAGNITUDE] = 2.5 * (
-                                np.log10(output['model_observations'][i]) -
-                                np.log10(output['model_observations'][i] -
-                                         output['model_variances'][i]))
+                        photodict[PHOTOMETRY.COUNT_RATE] = ct
+                        photodict[PHOTOMETRY.E_COUNT_RATE] = e_ct
+                        photodict[PHOTOMETRY.ZERO_POINT] = zp
+                        if str(output['systems'][i]).strip().lower() == 'ab':
+                            photodict[PHOTOMETRY.U_COUNT_RATE] = 'µJy'
+                        # Data given only as a flux get the model only as a
+                        # flux (a magnitude on the model rows alone breaks
+                        # astrocats' photometry sort).
+                        msr = output.get('all_measures')
+                        flux_only = (msr is not None and
+                                     'magnitude' not in (msr[i] or []))
+                        if not flux_only:
+                            photodict[PHOTOMETRY.MAGNITUDE] = (
+                                -2.5 * np.log10(ct) + zp)
+                            photodict[PHOTOMETRY.E_UPPER_MAGNITUDE] = 2.5 * (
+                                np.log10(ct + e_ct) - np.log10(ct))
+                            if e_ct > ct:
+                                photodict[PHOTOMETRY.UPPER_LIMIT] = True
+                            else:
+                                photodict[PHOTOMETRY.E_LOWER_MAGNITUDE] = 2.5 * (
+                                    np.log10(ct) - np.log10(ct - e_ct))
                     elif output['observation_types'][i] == 'fluxdensity':
                         photodict[PHOTOMETRY.FREQUENCY] = output[
                             'frequencies'][i] * frequency_unit('GHz')
