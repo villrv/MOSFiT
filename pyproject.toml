@@ -67,7 +67,7 @@ docs = [
 Homepage = "https://github.com/guillochon/mosfit"
 Documentation = "https://mosfit.readthedocs.io/"
 Changelog = "https://github.com/guillochon/MOSFiT/blob/master/CHANGELOG.md"
-Download = "https://github.com/guillochon/mosfit/tarball/v2.1.0"
+Download = "https://github.com/guillochon/mosfit/tarball/v2.1.1"
 conda-forge = "https://anaconda.org/conda-forge/mosfit"
 
 [project.scripts]
@@ -75,6 +75,16 @@ mosfit = "mosfit.main:main"
 
 [tool.hatch.version]
 path = "mosfit/__init__.py"
+
+[tool.hatch.build]
+# The bundled filter curves are gitignored (so SVO downloads never get
+# committed by accident) but tracked; hatch drops gitignored paths unless
+# they are listed as artifacts.
+artifacts = [
+    "mosfit/modules/observables/filters/*.area",
+    "mosfit/modules/observables/filters/*.dat",
+    "mosfit/modules/observables/filters/*.xml",
+]
 
 [tool.hatch.build.targets.sdist]
 include = [
